@@ -1,4 +1,4 @@
-name := "ExcelParsing"
+name := "excel-parser"
 
 version := "0.1"
 

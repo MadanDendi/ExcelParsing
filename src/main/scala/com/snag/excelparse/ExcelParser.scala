@@ -41,11 +41,12 @@ object ExcelParser {
         val key=parseArg(0);
         val value=parseArg(1)
         if(i==1)
-          cond+="\""+key+"\" === \""+value+"\""
+          cond+=s"$key=\'$value\'"
         else
-          cond+="AND \""+key+"\" === \""+value+"\""
+          cond+=s" AND $key=\'$value\'"
         println("Condition:"+cond)
         locations+=(parseArg(0)->parseArg(1))
+        i+=1
       }
 
     }
@@ -70,7 +71,7 @@ object ExcelParser {
       df.show()
     else {
       df.createTempView("spreadsheet")
-      val df1=spark.sql(s"SELECT * FROM spreadsheet ")
+      val df1=spark.sql(s"SELECT * FROM spreadsheet where $cond ")
       df1.select(locations.keys.toList.head, locations.keys.toList.tail: _*).show()
 
     }
