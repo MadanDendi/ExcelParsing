@@ -11,3 +11,5 @@ libraryDependencies+="org.apache.spark" %% "spark-core" % sparkVersion
 libraryDependencies+="org.apache.spark" %% "spark-sql" % sparkVersion
 libraryDependencies+="com.crealytics" %% "spark-excel" % "0.9.17"
 libraryDependencies+="com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.8.11"
+// https://mvnrepository.com/artifact/com.opencsv/opencsv
+libraryDependencies += "com.opencsv" % "opencsv" % "4.3"
