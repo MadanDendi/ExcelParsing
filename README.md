@@ -21,4 +21,12 @@ This repo contains artifacts for  excelParsing
    Program Arguments:
    file:///C:/Users/madan/Downloads/excelparsing.xlsx CEMP_ID=11546950221095289  STUDY_TYPE=ENTCARDEMAIL
 
+## To run CSVParser
+- Default : It parses csv and displays the data.
+   Program Arguments:
+     C:/Users/madan/Downloads/example.csv
+- To run filter based on few columns
+   Program Arguments:
+   file:///C:/Users/madan/Downloads/example.csv CEMP_ID=11546950221095289  STUDY_TYPE=ENTCARDEMAIL
+
 
