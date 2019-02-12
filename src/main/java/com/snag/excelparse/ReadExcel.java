@@ -1,3 +1,5 @@
+
+
 package com.snag.excelparse;
 
 /**
@@ -78,7 +80,9 @@ public class ReadExcel {
         /**
          * Get all spread sheet record into Row iterator
          */
+
         Iterator<Row> rowIterator = sheet.iterator();
+        HashMap<Integer,Row> finalData=new HashMap<>();
         while (((Iterator) rowIterator).hasNext()) {
             Row row = rowIterator.next();
             int rowIndex = row.getRowNum();
@@ -133,29 +137,24 @@ public class ReadExcel {
                             switch (cell.getCellType()) {
                                 case Cell.CELL_TYPE_NUMERIC:
                                     if(cell.getNumericCellValue() == Integer.parseInt(requiredCells.get(i)))
-                                        System.out.print(cell.getNumericCellValue() + "\t");
+                                        finalData.put(rowIndex,row);
                                     else if(requiredCells.get(i).equals(""))
-                                        System.out.print(cell.getNumericCellValue() + "\t");
+                                        finalData.put(rowIndex,row);
                                     break;
                                 case Cell.CELL_TYPE_STRING:
                                     if(cell.getStringCellValue().trim().equals(requiredCells.get(i)))
-                                        System.out.print(cell.getStringCellValue() + "\t");
+                                        finalData.put(rowIndex, row);
                                     else if(requiredCells.get(i).equals(""))
-                                        System.out.print(cell.getStringCellValue() + "\t");
+                                        finalData.put(rowIndex,row);
                                     break;
                                 case Cell.CELL_TYPE_BOOLEAN:
                                     if(cell.getBooleanCellValue() == Boolean.parseBoolean(requiredCells.get(i)))
-                                        System.out.print(cell.getBooleanCellValue() + "\t");
+                                        finalData.put(rowIndex,row);
                                     break;
                                 case Cell.CELL_TYPE_ERROR:
-                                    System.out.print(cell.getErrorCellValue()+"\t");
+                                    finalData.put(rowIndex,row);
                                     break;
-                                case Cell.CELL_TYPE_BLANK:
-                                    System.out.print("\t");
-                                    break;
-                                case Cell.CELL_TYPE_FORMULA:
-                                    System.out.print("\t");
-                                    break;
+
                             }
                         }
                     }
@@ -164,7 +163,16 @@ public class ReadExcel {
 
             }
 
-            System.out.println("");
+        }
+
+        for(Integer rownum:finalData.keySet()){
+            Row row=finalData.get(rownum);
+            short minColID = row.getFirstCellNum();
+            short maxColID = row.getLastCellNum();
+            for(short colID=minColID; colID<maxColID; colID++) {
+                System.out.print(row.getCell(colID)+"\t");
+            }
+            System.out.println();
         }
 
 

@@ -44,7 +44,7 @@ public class CSVParser {
 
 
             }
-            reader = new CSVReader(new FileReader(fileName),',');
+            reader = new CSVReader(new FileReader(fileName),'|');
 
             cp.parseCSV(reader, argsMap);
             reader.close();
@@ -69,10 +69,6 @@ public class CSVParser {
             int recordCount = 0;
             while ((nextLine = reader.readNext()) != null) {
                 if (recordCount == 0) {
-                    /**
-                     * 1. Take headers from CSV file
-                     * 2. If filter columns  are not passed as arguments, display whole data.
-                     */
                     int j = 1;
                     for (String token : nextLine) {
                         // System.out.print(token+"\t");
@@ -89,11 +85,6 @@ public class CSVParser {
 
                     }
                 } else {
-
-                    /**
-                     * 1. Mapping data to record and header based.
-                     *
-                     */
                     int header = 1;
                     HashMap<String, String> data = new HashMap<>();
                     for (String token : nextLine) {
@@ -109,31 +100,29 @@ public class CSVParser {
 
             System.out.println("Number of records in sheet: "+recordCount);
 
-            /**
-             * 1. Display the data based on User filter.
-             * 2. If User not passing any filter, get whole data from file.
-             *
-             */
+            HashMap<Integer,HashMap<String,String>> finalData=new HashMap<>();
             for (int recordNumber : headerData.keySet()) {
                 HashMap<String, String> storedData = headerData.get(recordNumber);
                 for(String requiredCol:cellLocations.keySet()){
                     if(storedData.containsKey(requiredCol)){
                         if(storedData.get(requiredCol).equals(cellLocations.get(requiredCol)))
-                            System.out.print(storedData.get(requiredCol) + "\t");
+                            finalData.put(recordNumber,headerData.get(recordNumber));
                         else if (cellLocations.get(requiredCol).equals(""))
-                            System.out.print(storedData.get(requiredCol) + "\t");
+                            finalData.put(recordNumber,headerData.get(recordNumber));
                     }
 
                 }
-
-                System.out.println();
             }
+            for (int recordNumber : finalData.keySet())
+            {
+                System.out.println(finalData.get(recordNumber));
+            }
+
         }
         catch (Exception e){
             e.printStackTrace();
 
         }
-
 
 
     }
